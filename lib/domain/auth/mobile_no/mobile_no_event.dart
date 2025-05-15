@@ -8,3 +8,4 @@ class MobileChanged extends MobileInputEvent {
 }
 
 class MobileSubmitted extends MobileInputEvent {}
+class MobileReset extends MobileInputEvent {}

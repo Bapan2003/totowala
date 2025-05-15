@@ -11,6 +11,7 @@ class MobileInputBloc extends Bloc<MobileInputEvent, MobileInputState> {
     on<MobileChanged>(_handleOnChanged );
 
     on<MobileSubmitted>(_handleOnSubmitted);
+    on<MobileReset>(_handleOnReset);
   }
 
   void _handleOnChanged(
@@ -34,6 +35,11 @@ class MobileInputBloc extends Bloc<MobileInputEvent, MobileInputState> {
       emit(state.copyWith(isSubmitted: true));
       // Trigger OTP or next action
     }
+  }
+
+
+  void _handleOnReset(MobileReset event, Emitter<MobileInputState> emit){
+      emit(state.copyWith(isSubmitted: false));
   }
 
 }

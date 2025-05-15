@@ -6,7 +6,7 @@ import 'package:totowala/app/navigation/app_route.dart';
 class SplashScreenViewModel{
 
 
-  void gotoDashboard(BuildContext context) {
+  void gotoNextPage(BuildContext context) {
     if(false){
       context.goNamed(AppRoute.dashboard);
     }else{
