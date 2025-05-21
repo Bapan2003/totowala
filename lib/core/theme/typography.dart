@@ -22,7 +22,7 @@ TextStyle kTextStyleCustomColor(Color color, double size, bool isBold,
 }
 
 TextStyle kTextStyleColor800(
-    {Color color=AppColors.black,double size=14,bool isUnderline=false, bool cairo=false,bool isBold=false}) {
+    {Color color=AppColors.black,double size=14,bool isUnderline=false, bool cairo=false,bool isBold=true}) {
 
   return TextStyle(
       fontSize: size,
@@ -33,7 +33,7 @@ TextStyle kTextStyleColor800(
 }
 
 TextStyle kTextStyleColor600(
-    {Color color=AppColors.black,double size=14,bool isUnderline=false, bool cairo=false,bool isBold=false}) {
+    {Color color=AppColors.black,double size=14,bool isUnderline=false, bool cairo=false,bool isBold=true}) {
 
   return TextStyle(
       fontSize: size,
@@ -54,7 +54,7 @@ TextStyle kTextStyleColor500(
 }
 
 TextStyle kTextStyleColor700(
-    {Color color=AppColors.black,double size=14,bool isUnderline=false, bool cairo=false,bool isBold=false}) {
+    {Color color=AppColors.black,double size=14,bool isUnderline=false, bool cairo=false,bool isBold=true}) {
 
   return TextStyle(
       fontSize: size,

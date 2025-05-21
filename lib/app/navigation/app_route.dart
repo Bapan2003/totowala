@@ -5,4 +5,5 @@ class AppRoute{
   static const dashboard='/dashboard';
   static const mobileNoScreen='/mobileNoScreen';
   static const verifyOtpScreen='/verifyNoScreen';
+  static const searchScreen='/searchScreen';
 }

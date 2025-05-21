@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:totowala/app/features/auth/verify_otp/verify_otp.dart';
+import 'package:totowala/app/features/dashboard/page/home/home_view_model.dart';
+import 'package:totowala/app/features/search/search_screen.dart';
 import 'package:totowala/domain/auth/mobile_no/mobile_no_bloc.dart';
+import 'package:totowala/domain/dashboard/home/home_bloc.dart';
 
 import '../features/screen_export.dart';
 import 'app_route.dart';
 
 
-enum TransitionType { fade, slide, scale }
+enum TransitionType { fade, slide, scale, bottomToTop,}
 
 
 class AppRouterConfig {
@@ -59,6 +62,19 @@ class AppRouterConfig {
       },
     ),
 
+
+    GoRoute(
+      path: AppRoute.searchScreen,  // e.g. '/verify-otp'
+      name: AppRoute.searchScreen,
+      pageBuilder: (context, state) {
+        return buildTransitionPage(
+          child: SearchScreen(viewModel: HomeViewModel(HomeBloc())..fetchLocation(),),
+          state: state,
+          type: TransitionType.bottomToTop,
+        );
+      },
+    ),
+
   ];
 
   void dispose() {}
@@ -86,6 +102,14 @@ class AppRouterConfig {
             );
           case TransitionType.scale:
             return ScaleTransition(scale: animation, child: child);
+          case TransitionType.bottomToTop:
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, 1), // 👈 bottom to top
+                end: Offset.zero,
+              ).animate(animation),
+              child: child,
+            );
         }
       },
     );

@@ -7,11 +7,12 @@ class AppDecoration{
 
   //  Box Decoration
   static BoxDecoration kCustomBoxDecorationWithShadow(
-      double radius, Color bgColor, Color borderColor, Color shadowColor) {
+      double radius, Color bgColor, Color borderColor, Color shadowColor,{isCircle=false}) {
     return BoxDecoration(
-      borderRadius: BorderRadius.circular(radius),
+      borderRadius: isCircle?null:BorderRadius.circular(radius),
       border: Border.all(color: borderColor),
       color: bgColor,
+      shape: isCircle?BoxShape.circle:BoxShape.rectangle,
       boxShadow: [
         BoxShadow(
           color: shadowColor.withOpacity(0.1),
@@ -23,11 +24,12 @@ class AppDecoration{
   }
 
   static BoxDecoration kCustomBoxDecoration(
-      double radius, Color bgColor, Color borderColor) {
+      double radius, Color bgColor, Color borderColor,{bool isCircle=false}) {
     return BoxDecoration(
-      borderRadius: BorderRadius.circular(radius),
+      borderRadius:  isCircle?null:BorderRadius.circular(radius),
       border: Border.all(color: borderColor),
       color: bgColor,
+      shape: isCircle?BoxShape.circle:BoxShape.rectangle,
     );
   }
 

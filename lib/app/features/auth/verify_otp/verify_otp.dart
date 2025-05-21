@@ -7,7 +7,10 @@ import 'package:totowala/core/common_widget/common_widget.dart';
 import 'package:totowala/core/decoration/app_decoration.dart';
 import 'package:totowala/core/decoration/pin_theme.dart';
 import 'package:totowala/core/library/images.dart';
+import 'package:totowala/core/utils/app_const.dart';
+import 'package:totowala/core/utils/app_settings.dart';
 
+import '../../../../core/common_widget/app_toast.dart';
 import '../../../../core/library/app_text.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/typography.dart';
@@ -114,7 +117,14 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
               CommonWidget.button(AppText.verify, (){
 
                 if(enterOtp.length==6){
-                  context.go(AppRoute.dashboard);
+                  if(enterOtp=='123456'){
+                    AppSettings.saveData(AppConstant.isActive, true);
+                    context.go(AppRoute.dashboard);
+                  }else{
+                    AppToast.toastMessage(context, AppText.wrongOtp,backgroundColor: AppColors.errorColor,textColor: AppColors.white);
+                  }
+                }else{
+                  AppToast.toastMessage(context, AppText.pleaseEnter6DigitOtp);
                 }
               }),
 
