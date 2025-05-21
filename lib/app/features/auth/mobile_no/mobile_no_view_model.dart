@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:totowala/app/navigation/app_route.dart';
 
-import '../../../../domain/auth/mobile_no/mobile_no_bloc.dart';
-import '../../../../domain/auth/mobile_no/mobile_no_event.dart';
-import '../../../../domain/auth/mobile_no/mobile_no_state.dart';
+import '../../../../domain/features/auth/mobile_no/mobile_no_bloc.dart';
+import '../../../../domain/features/auth/mobile_no/mobile_no_event.dart';
+import '../../../../domain/features/auth/mobile_no/mobile_no_state.dart';
+
+
 
 class MobileNoViewModel{
 

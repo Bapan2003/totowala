@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/theme/colors.dart';
-import '../../../core/utils/app_helper.dart';
+import '../../../../core/theme/colors.dart';
+import '../../../../core/utils/app_helper.dart';
 import 'home_event.dart';
 import 'home_state.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -31,10 +31,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ),
       };
 
+
+
       state.mapController?.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(position.latitude, position.longitude), zoom: 15),
       ));
-      
+
+
       emit(state.copyWith(
         currentPosition: position,
         address: address,
@@ -82,9 +85,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   }
 
-  
+
   void _createMapController(CreateMapController event,Emitter<HomeState> emit){
-    state.copyWith(mapController: event.mapController);
+    emit(state.copyWith(mapController: event.mapController));
   }
 
 }

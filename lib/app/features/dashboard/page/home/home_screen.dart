@@ -7,14 +7,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:totowala/core/decoration/app_decoration.dart';
 import 'package:totowala/core/library/images.dart';
 import 'package:totowala/core/theme/typography.dart';
-import 'package:totowala/domain/dashboard/home/home_event.dart';
-import 'package:totowala/domain/dashboard/home/home_state.dart';
+
 
 import '../../../../../core/library/app_text.dart';
 import '../../../../../core/theme/colors.dart';
 import '../../../../../core/utils/app_helper.dart';
 import '../../../../../core/utils/app_settings.dart';
-import '../../../../../domain/dashboard/home/home_bloc.dart';
+import '../../../../../domain/features/dashboard/home/home_bloc.dart';
+import '../../../../../domain/features/dashboard/home/home_state.dart';
 import '../../../../navigation/app_route.dart';
 import 'home_view_model.dart';
 
@@ -34,9 +34,15 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     final homeBloc = HomeBloc();
     _viewModel = HomeViewModel(homeBloc);
+ 
+  }
+  void _onMapCreated(GoogleMapController controller) async {
+    _viewModel.createMapController(controller);
     _viewModel.fetchLocation();
+    // _mapController.animateCamera(cameraUpdate)
   }
 
+  
   @override
   void dispose() {
     _viewModel.dispose();
@@ -71,13 +77,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             target: LatLng(22.5726, 88.3639), // Kolkata coordinates (example)
                             zoom: 12,
                           ),
-                          onMapCreated: (controller) {
-                            _viewModel.createMapController(controller);
-                          },
+                          onMapCreated:_onMapCreated,
                           myLocationEnabled: true,
                           myLocationButtonEnabled: false,
                           zoomControlsEnabled: false,
-                          markers: state!.markers,
+                          markers: state?.markers??{},
                         ),
 
                         // Gradient overlay
@@ -114,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     Positioned(
                         left: 20,
-                        top: 60,
+                        top: kToolbarHeight-10,
                         right: 20,
                         child:  Row(
 
@@ -137,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             Expanded(
-                                child: Center(child: Text(state.address,textAlign:TextAlign.center,style: kTextStyleColor500(color: AppColors.white),))
+                                child: Center(child: Text(state?.address??'',textAlign:TextAlign.center,style: kTextStyleColor500(color: AppColors.white),))
                             ),
                             Container(
                               width: 45,

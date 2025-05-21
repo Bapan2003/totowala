@@ -4,9 +4,12 @@ import 'package:page_transition/page_transition.dart';
 import 'package:totowala/app/features/auth/verify_otp/verify_otp.dart';
 import 'package:totowala/app/features/dashboard/page/home/home_view_model.dart';
 import 'package:totowala/app/features/search/search_screen.dart';
-import 'package:totowala/domain/auth/mobile_no/mobile_no_bloc.dart';
-import 'package:totowala/domain/dashboard/home/home_bloc.dart';
+import 'package:totowala/app/features/search/search_view_model.dart';
 
+
+import '../../domain/features/auth/mobile_no/mobile_no_bloc.dart';
+import '../../domain/features/dashboard/home/home_bloc.dart';
+import '../../domain/features/search/search_bloc.dart';
 import '../features/screen_export.dart';
 import 'app_route.dart';
 
@@ -68,7 +71,7 @@ class AppRouterConfig {
       name: AppRoute.searchScreen,
       pageBuilder: (context, state) {
         return buildTransitionPage(
-          child: SearchScreen(viewModel: HomeViewModel(HomeBloc())..fetchLocation(),),
+          child: SearchScreen(homeViewModel: HomeViewModel(HomeBloc())..fetchLocation(),searchViewModel: SearchViewModel(SearchBloc()),),
           state: state,
           type: TransitionType.bottomToTop,
         );

@@ -28,7 +28,7 @@ class HomeState {
       totoIcon: null,
       isLoading: false,
       error: null,
-      mapController: null,
+      mapController: null
     );
   }
 

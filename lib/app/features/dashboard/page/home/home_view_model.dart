@@ -1,8 +1,10 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../../../../domain/dashboard/home/home_bloc.dart';
-import '../../../../../domain/dashboard/home/home_event.dart';
-import '../../../../../domain/dashboard/home/home_state.dart';
+import '../../../../../domain/features/dashboard/home/home_bloc.dart';
+import '../../../../../domain/features/dashboard/home/home_event.dart';
+import '../../../../../domain/features/dashboard/home/home_state.dart';
+
+
 
 class HomeViewModel{
 

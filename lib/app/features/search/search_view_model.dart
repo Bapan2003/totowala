@@ -1,27 +1,30 @@
+import 'package:totowala/domain/features/search/search_bloc.dart';
+import 'package:totowala/domain/features/search/search_event.dart';
+import 'package:totowala/domain/features/search/search_state.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../data/model/place_suggestion.dart';
+
 class SearchViewModel{
+
+
+  final SearchBloc _searchBloc;
+
+  SearchViewModel(this._searchBloc);
+
+  Stream<SearchState> get state => _searchBloc.stream;
+
+
   Uuid uuid=const Uuid();
   String _sessionToken='';
 
 
-  void getSuggestions(String suggestions)async{
-    String googleApi = "AIzaSyDovHtxtPHq-fzGsE1rXUPT9tvUBa-1zcM";
-    String baseUrl =
-        "https://maps.googleapis.com/maps/api/place/autocomplete/json";
-    String request =
-        "$baseUrl?input=$suggestions&key=$googleApi&sessiontoken=$_sessionToken";
-
-    var response=await http.get(Uri.parse(request));
-    print(response.body.toString());
-  }
-
   void onChange(String input){
     if(_sessionToken.isEmpty){
       _sessionToken=uuid.v4();
-    }else{
-      getSuggestions(input);
     }
+    _searchBloc.add(SearchPlaceEvent(input: input, sessionToken: _sessionToken));
+
   }
 }

@@ -6,7 +6,6 @@ import 'package:totowala/app/navigation/app_route.dart';
 import 'package:totowala/core/decoration/app_decoration.dart';
 import 'package:totowala/core/theme/typography.dart';
 import 'package:totowala/core/utils/app_settings.dart';
-import 'package:totowala/domain/dashboard/home/home_bloc.dart';
 
 import '../../../core/library/app_text.dart';
 import '../../../core/theme/colors.dart';

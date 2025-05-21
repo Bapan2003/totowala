@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:totowala/app/navigation/app_router_config.dart';
-import 'package:totowala/domain/dashboard/home/home_bloc.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});

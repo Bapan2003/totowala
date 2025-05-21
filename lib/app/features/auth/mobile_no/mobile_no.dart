@@ -11,7 +11,7 @@ import 'package:totowala/core/theme/typography.dart';
 
 import '../../../../core/library/app_text.dart';
 import '../../../../core/theme/colors.dart';
-import '../../../../domain/auth/mobile_no/mobile_no_state.dart';
+import '../../../../domain/features/auth/mobile_no/mobile_no_state.dart';
 import '../../../navigation/app_route.dart';
 import '../../screen_export.dart';
 
