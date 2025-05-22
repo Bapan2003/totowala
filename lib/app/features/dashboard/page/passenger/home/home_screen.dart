@@ -4,18 +4,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:totowala/app/features/dashboard/dashboard_view_model.dart';
+import 'package:totowala/app/features/dashboard/widget/driver_mode.dart';
 import 'package:totowala/core/decoration/app_decoration.dart';
 import 'package:totowala/core/library/images.dart';
 import 'package:totowala/core/theme/typography.dart';
 
-
-import '../../../../../core/library/app_text.dart';
-import '../../../../../core/theme/colors.dart';
-import '../../../../../core/utils/app_helper.dart';
-import '../../../../../core/utils/app_settings.dart';
-import '../../../../../domain/features/dashboard/home/home_bloc.dart';
-import '../../../../../domain/features/dashboard/home/home_state.dart';
-import '../../../../navigation/app_route.dart';
+import '../../../../../../core/library/app_text.dart';
+import '../../../../../../core/theme/colors.dart';
+import '../../../../../../core/utils/app_settings.dart';
+import '../../../../../../domain/features/dashboard/dashboard/dashboard_bloc.dart';
+import '../../../../../../domain/features/dashboard/dashboard/dashboard_event.dart';
+import '../../../../../../domain/features/dashboard/dashboard/dashboard_state.dart';
+import '../../../../../../domain/features/dashboard/home/home_bloc.dart';
+import '../../../../../../domain/features/dashboard/home/home_state.dart';
+import '../../../../../navigation/app_route.dart';
 import 'home_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -48,10 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _viewModel.dispose();
     super.dispose();
   }
-
-
-
-
 
 
   @override
@@ -198,26 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Text("Hello there, Abhijit ", style: kTextStyleColor700(color: AppColors.white,size: 24,)),
                     const SizedBox(height: 10),
 
-
-                    Row(
-                      children: [
-
-                        Expanded(
-                          child: Container(
-                            decoration: AppDecoration.kCustomBoxDecorationWithShadow(12, AppColors.white, AppColors.grey.withOpacity(0.7),AppColors.black),
-                            height: 150,
-                          ),
-                        ),
-
-                        SizedBox(width: 10,),
-                        Expanded(
-                          child: Container(
-                            decoration: AppDecoration.kCustomBoxDecorationWithShadow(12, AppColors.white, AppColors.grey.withOpacity(0.7),AppColors.black),
-                            height: 150,
-                          ),
-                        ),
-                      ],
-                    ),
+                    _bikeAutoOption(),
                     const SizedBox(height: 15),
 
                     Container(
@@ -266,68 +246,204 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Drawer _leftDrawer(){
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children:  [
-          SizedBox(
-            height: 110,
-            child: DrawerHeader(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children:  [
+                SizedBox(
+                  height: 110,
+                  child: DrawerHeader(
 
-              decoration: BoxDecoration(color: AppColors.primary),
-              child: Text(
-                '${AppText.welcome} Abhijit',
-                style: TextStyle(color: Colors.white, fontSize: 24),
+                    decoration: BoxDecoration(color: AppColors.primary),
+                    child: Text(
+                      '${AppText.welcome} Abhijit',
+                      style: TextStyle(color: Colors.white, fontSize: 24),
+                    ),
+                  ),
+                ),
+                ListTile(
+                  leading: CircleAvatar(backgroundColor: AppColors.lightGreyColor,child: Icon(Icons.home,color: AppColors.black87,)),
+                  title: Text('Home'),
+                  onTap: (){
+                    Navigator.pop(context);
+                  },
+                ),
+                ListTile(
+                  leading: CircleAvatar(backgroundColor: AppColors.lightGreyColor,child: Icon(Icons.settings,color: AppColors.black87,)),
+                  title: Text('Settings'),
+                ),
+                ListTile(
+                  leading: CircleAvatar(backgroundColor: AppColors.lightGreyColor,child: Icon(Icons.logout,color: AppColors.black87,)),
+                  title: const Text('Logout'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Confirm Logout'),
+                        content: const Text('Are you sure you want to logout?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context), // Cancel
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context); // Close dialog
+                              AppSettings.clearAll();
+                              context.go(AppRoute.mobileNoScreen); // Navigate
+                            },
+                            child: const Text('Logout'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+
+                ListTile(
+                  leading: CircleAvatar(backgroundColor: AppColors.lightGreyColor,child: Icon(Icons.info_outline,color: AppColors.black87,)),
+                  title: Text('Version 1.0.0'),
+                ),
+                const Divider(thickness: 2,),
+                // const Spacer()
+              ],
+            ),
+          ),
+          DriverPassengerModeToggle(),
+
+        ],
+      ),
+    );
+  }
+
+
+  Widget _bikeAutoOption(){
+    return Row(
+      children: [
+
+        Expanded(
+          child: GestureDetector(
+            onTap:(){
+              context.push(AppRoute.searchScreen);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors:[
+                      AppColors.white,
+                      AppColors.white,
+                      AppColors.white,
+                      AppColors.primary,
+                      AppColors.secondary55
+                    ]),
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                boxShadow: const [BoxShadow(blurRadius: 12, color: Colors.black26,offset: Offset(0, -10))],
+              ),
+              // decoration: AppDecoration.kCustomBoxDecorationWithShadow(12, AppColors.secondary, AppColors.grey.withOpacity(0.7),AppColors.black),
+              height: 170,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Stack(
+                    children: [
+                      Image(image: AssetImage(AppImages.auto,),height: 100,fit: BoxFit.contain,),
+                      Positioned(
+                          bottom:10,
+                          left:5,
+                          right:5,
+                          child: Container(color: AppColors.black,width: double.infinity,height: 2,))
+
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(AppText.bookAutoRide,style: kTextStyleColor600(),),
+                            SizedBox(width: 10,),
+                            Icon(Icons.arrow_forward_outlined,color: AppColors.black,)
+                          ],
+                        ),
+                        Text(AppText.budgetFriendlyRides,style: kTextStyleColor600(isBold: false),),
+
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Home'),
-            onTap: (){
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-          ),
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
-            onTap: () {
-              Navigator.pop(context);
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Confirm Logout'),
-                  content: const Text('Are you sure you want to logout?'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context), // Cancel
-                      child: const Text('Cancel'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context); // Close dialog
-                        AppSettings.clearAll();
-                        context.go(AppRoute.mobileNoScreen); // Navigate
-                      },
-                      child: const Text('Logout'),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
+        ),
 
-          ListTile(
-            leading: Icon(Icons.info_outline),
-            title: Text('Version 1.0.0'),
+        SizedBox(width: 10,),
+        Expanded(
+          child: GestureDetector(
+            onTap:(){
+              context.push(AppRoute.searchScreen);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors:[
+                      AppColors.white,
+                      AppColors.white,
+                      AppColors.white,
+                      AppColors.white,
+                      AppColors.primary,
+                      AppColors.secondary55
+                    ]),
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                boxShadow: const [BoxShadow(blurRadius: 12, color: Colors.black26,offset: Offset(0, -10))],
+              ),
+              // decoration: AppDecoration.kCustomBoxDecorationWithShadow(12, AppColors.secondary, AppColors.grey.withOpacity(0.7),AppColors.black),
+              height: 170,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image(image: AssetImage(AppImages.bike,),height: 100,fit: BoxFit.contain,),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(AppText.bookBikeRide,style: kTextStyleColor600(),),
+                            SizedBox(width: 10,),
+                            Icon(Icons.arrow_forward_outlined,color: AppColors.black,)
+                          ],
+                        ),
+                        Text(AppText.trafficLessRides,style: kTextStyleColor600(isBold: false),),
+
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-          const Divider(thickness: 2,),
-          // const Spacer()
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

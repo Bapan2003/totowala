@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  static const primary = Color(0xFFDBA506);
+  static const Color primary = Color(0xFFDBA506);
+  static Color secondary = Color(0xFFFFCD01);
+  static Color secondary55 = secondary.withOpacity(0.55);
+  static Color secondary85 = secondary.withOpacity(0.85);
   static const black = Colors.black;
   static const transparent = Colors.transparent;
   static const white = Colors.white;

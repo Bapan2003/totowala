@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:totowala/app/features/dashboard/page/home/home_screen.dart';
-import 'package:totowala/app/navigation/app_route.dart';
+
+import 'package:totowala/app/features/dashboard/dashboard_view_model.dart';
+import 'package:totowala/app/features/dashboard/page/driver/home/driver_home_screen.dart';
+import 'package:totowala/app/features/dashboard/page/passenger/home/home_screen.dart';
 import 'package:totowala/core/decoration/app_decoration.dart';
 import 'package:totowala/core/theme/typography.dart';
-import 'package:totowala/core/utils/app_settings.dart';
+import 'package:totowala/domain/features/dashboard/dashboard/dashboard_bloc.dart';
+import 'package:totowala/domain/features/dashboard/dashboard/dashboard_event.dart';
+import 'package:totowala/domain/features/dashboard/dashboard/dashboard_state.dart';
 
 import '../../../core/library/app_text.dart';
 import '../../../core/theme/colors.dart';
+import '../../../core/utils/app_const.dart';
+import '../../../core/utils/app_helper.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -23,20 +28,34 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   final pageList=[
     HomeScreen(),
+    DriverHomeScreen(),
   ];
+
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<DashboardBloc>().add(SetModeEvent(isDriver: AppHelper.checkDriverOrNot()));
+  }
+
   @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: AppColors.white,
-      // appBar: _appBar(),
-      // drawer: _leftDrawer(),
-      body: pageList[0],
+      body: BlocBuilder<DashboardBloc,DashboardState>(builder: (context,state){
+        return state.isDriver?DriverHomeScreen():HomeScreen();
+      }),
     );
   }
 
@@ -77,5 +96,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ],
     );
   }
+
+
 
 }

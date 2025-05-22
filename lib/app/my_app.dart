@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:totowala/app/navigation/app_router_config.dart';
+import 'package:totowala/domain/features/dashboard/dashboard/dashboard_bloc.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -21,9 +22,16 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: _appRouterConfig.router,
-      debugShowCheckedModeBanner: false,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<DashboardBloc>(
+          create: (context) => DashboardBloc(),
+        ),
+      ],
+      child: MaterialApp.router(
+        routerConfig: _appRouterConfig.router,
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

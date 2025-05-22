@@ -5,7 +5,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import 'package:totowala/app/features/checkout/checkout_screen.dart';
-import 'package:totowala/app/features/dashboard/page/home/home_view_model.dart';
 import 'package:totowala/app/features/search/search_view_model.dart';
 import 'package:totowala/app/features/search/widget/pickup_drop_line.dart';
 import 'package:totowala/app/navigation/app_route.dart';
@@ -21,6 +20,7 @@ import '../../../core/library/app_text.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/typography.dart';
 import '../../../core/utils/app_helper.dart';
+import '../dashboard/page/passenger/home/home_view_model.dart';
 
 class SearchScreen extends StatefulWidget {
   final HomeViewModel homeViewModel;

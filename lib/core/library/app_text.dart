@@ -11,6 +11,13 @@ class AppText{
   static const String pickUp='Pickup';
   static const String confirm='Confirm';
   static const String chooseRide='Choose Ride';
+  static const String driverMode='Driver Mode';
+  static const String offDuty='OFF DUTY';
+  static const String onDuty='ON DUTY';
+  static const String bookAutoRide='Book a Auto Ride';
+  static const String bookBikeRide='Book a Bike Ride';
+  static const String budgetFriendlyRides='Budget Friendly Rides';
+  static const String trafficLessRides='Traffic less Rides';
 
 
 }

@@ -7,6 +7,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'app_const.dart';
+import 'app_settings.dart';
+
 class AppHelper{
 
 
@@ -196,5 +199,9 @@ class AppHelper{
       if (latLng.longitude < y0) y0 = latLng.longitude;
     }
     return LatLngBounds(northeast: LatLng(x1, y1), southwest: LatLng(x0, y0));
+  }
+
+  static  bool checkDriverOrNot() {
+    return  AppSettings.getData(AppConstant.isDriver)??false;
   }
 }
