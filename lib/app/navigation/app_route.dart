@@ -6,4 +6,5 @@ class AppRoute{
   static const mobileNoScreen='/mobileNoScreen';
   static const verifyOtpScreen='/verifyNoScreen';
   static const searchScreen='/searchScreen';
+  static const checkoutScreen='/checkoutScreen';
 }

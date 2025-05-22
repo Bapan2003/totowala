@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:totowala/app/features/auth/verify_otp/verify_otp.dart';
+import 'package:totowala/app/features/checkout/checkout_screen.dart';
 import 'package:totowala/app/features/dashboard/page/home/home_view_model.dart';
 import 'package:totowala/app/features/search/search_screen.dart';
 import 'package:totowala/app/features/search/search_view_model.dart';
 
 
+import '../../core/utils/app_helper.dart';
 import '../../domain/features/auth/mobile_no/mobile_no_bloc.dart';
 import '../../domain/features/dashboard/home/home_bloc.dart';
 import '../../domain/features/search/search_bloc.dart';
@@ -74,6 +77,22 @@ class AppRouterConfig {
           child: SearchScreen(homeViewModel: HomeViewModel(HomeBloc())..fetchLocation(),searchViewModel: SearchViewModel(SearchBloc()),),
           state: state,
           type: TransitionType.bottomToTop,
+        );
+      },
+    ),
+
+    GoRoute(
+      path: AppRoute.checkoutScreen,
+      name: AppRoute.checkoutScreen,
+      pageBuilder: (context, state) {
+        final srcString = state.uri.queryParameters['src'] ?? '';
+        final destString = state.uri.queryParameters['dest'] ?? '';
+
+        final LatLng? srcLatLng = AppHelper.parseLatLng(srcString);
+        final LatLng? destLatLng = AppHelper.parseLatLng(destString);
+        return buildTransitionPage(
+          child: CheckoutScreen(src: srcLatLng,dest: destLatLng,),
+          state: state,
         );
       },
     ),

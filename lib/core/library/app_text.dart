@@ -9,6 +9,8 @@ class AppText{
   static const String enterDropLocationHere='Enter drop location here';
   static const String drop='Drop';
   static const String pickUp='Pickup';
+  static const String confirm='Confirm';
+  static const String chooseRide='Choose Ride';
 
 
 }

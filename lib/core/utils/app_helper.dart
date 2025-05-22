@@ -108,7 +108,7 @@ class AppHelper{
 
         String homeAddress="${place.street}, ${place.locality}";
 
-        return homeAddress;
+        return address;
       } else {
         return '';
       }
@@ -129,5 +129,72 @@ class AppHelper{
     } catch (e) {
       throw Exception('Error occurred while getting coordinates: $e');
     }
+  }
+
+  static String cropTitleFromWhole(String whole, String title) {
+    if (whole.startsWith(title)) {
+      String cropped = whole.substring(title.length);
+
+      // Remove leading punctuation and spaces (commas, dashes, colons, etc.)
+      cropped = cropped.replaceFirst(RegExp(r'^[\s,;:.\-]+'), '');
+
+      return cropped.trim();
+    }
+    return whole.trim();
+  }
+
+  static List<LatLng> decodePolyline(String encoded) {
+    List<LatLng> points = [];
+    int index = 0, len = encoded.length;
+    int lat = 0, lng = 0;
+
+    while (index < len) {
+      int b, shift = 0, result = 0;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1F) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlat = (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
+      lat += dlat;
+
+      shift = 0;
+      result = 0;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1F) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlng = (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
+      lng += dlng;
+
+      points.add(LatLng(lat / 1e5, lng / 1e5));
+    }
+
+    return points;
+  }
+
+  static LatLng? parseLatLng(String str) {
+    final parts = str.split(',');
+    if (parts.length == 2) {
+      final lat = double.tryParse(parts[0]);
+      final lng = double.tryParse(parts[1]);
+      if (lat != null && lng != null) {
+        return LatLng(lat, lng);
+      }
+    }
+    return null;
+  }
+
+  static LatLngBounds boundsFromLatLngList(List<LatLng> list) {
+    double x0 = list[0].latitude, x1 = list[0].latitude;
+    double y0 = list[0].longitude, y1 = list[0].longitude;
+    for (LatLng latLng in list) {
+      if (latLng.latitude > x1) x1 = latLng.latitude;
+      if (latLng.latitude < x0) x0 = latLng.latitude;
+      if (latLng.longitude > y1) y1 = latLng.longitude;
+      if (latLng.longitude < y0) y0 = latLng.longitude;
+    }
+    return LatLngBounds(northeast: LatLng(x1, y1), southwest: LatLng(x0, y0));
   }
 }

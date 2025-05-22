@@ -1,3 +1,5 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:totowala/data/model/place_model.dart';
 import 'package:totowala/domain/features/search/search_bloc.dart';
 import 'package:totowala/domain/features/search/search_event.dart';
 import 'package:totowala/domain/features/search/search_state.dart';
@@ -26,5 +28,29 @@ class SearchViewModel{
     }
     _searchBloc.add(SearchPlaceEvent(input: input, sessionToken: _sessionToken));
 
+  }
+
+
+  void selectPickUpLocation(String address,double lat,double long){
+    var placeModel={
+      'latLng':{
+        'latitude':lat,
+        'longitude':long
+      },
+      'address':address
+    };
+    _searchBloc.add(PickupPlaceEvent(placeModel: PlaceModel.fromJson(placeModel)));
+  }
+
+
+  void selectDropLocation(String address,double lat,double long){
+    var placeModel={
+      'latLng':{
+        'latitude':lat,
+        'longitude':long
+      },
+      'address':address
+    };
+    _searchBloc.add(DropPlaceEvent(placeModel: PlaceModel.fromJson(placeModel)));
   }
 }

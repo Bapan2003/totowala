@@ -14,6 +14,7 @@ class CommonWidget{
         }
       },
       child: Container(
+        height: 50,
         width: double.infinity,
         decoration: AppDecoration.kCustomBoxDecoration(12, bgColor, borderColor),
         padding: EdgeInsets.symmetric(vertical: 15),
@@ -23,20 +24,26 @@ class CommonWidget{
     );
   }
 
-  static Widget backButton(BuildContext context,{bool isCross=false}){
-    return  GestureDetector(
-      onTap: (){
-        // Safely check if we can pop
-        if (Navigator.of(context).canPop()) {
-          Navigator.pop(context);
-        }
-      },
-      child: Container(
-        height: 44,
-        width: 44,
-        decoration: AppDecoration.kCustomBoxDecoration(12, AppColors.transparent, AppColors.black),
-        child: Icon(isCross?Icons.clear:Icons.keyboard_arrow_left_outlined,size: 35,),
-      ),
+  static Widget backButton(BuildContext context,{bool isCross=false, Color bgColor =AppColors.transparent,bool isShadow=false, Color? iconColor, Color borderColor=AppColors.lightGreyColor, String? title}){
+    return  Row(
+      children: [
+        GestureDetector(
+          onTap: (){
+            // Safely check if we can pop
+            if (Navigator.of(context).canPop()) {
+              Navigator.pop(context);
+            }
+          },
+          child: Container(
+            height: 44,
+            width: 44,
+            decoration: isShadow?AppDecoration.kCustomBoxDecorationWithShadow(12, bgColor, borderColor,AppColors.black):AppDecoration.kCustomBoxDecoration(12, bgColor, borderColor),
+            child: Icon(isCross?Icons.clear:Icons.keyboard_arrow_left_outlined,size: 35,color: iconColor??AppColors.black87,),
+          ),
+        ),
+        SizedBox(width: 10,),
+        Text(title??'',),
+      ],
     );
   }
 }

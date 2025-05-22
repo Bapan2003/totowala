@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:totowala/core/api/app_req_end_point.dart';
 import 'package:totowala/domain/features/search/search_event.dart';
 import 'package:totowala/domain/features/search/search_state.dart';
 
@@ -10,6 +11,8 @@ import '../../../data/model/place_suggestion.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState>{
   SearchBloc():super(SearchState.initial()){
     on<SearchPlaceEvent>(_onFetchSuggestions);
+    on<PickupPlaceEvent>(_onPickup);
+    on<DropPlaceEvent>(_onDrop);
   }
 
   Future<void> _onFetchSuggestions(
@@ -18,10 +21,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState>{
       ) async {
     emit(state.copyWith(isLoading: true,));
 
-    final String baseUrl =
-        "https://maps.googleapis.com/maps/api/place/autocomplete/json";
-    final String requestUrl =
-        "$baseUrl?input=${event.input}&key=AIzaSyAfiISUmg_6Bdcw0XI4GhocAi76a9_sYY8&sessiontoken=${event.sessionToken}";
+    final String requestUrl =AppReqEndPoint.getPlace(event.input, event.sessionToken);
+
 
     try {
       final response = await http.get(Uri.parse(requestUrl));
@@ -39,5 +40,14 @@ class SearchBloc extends Bloc<SearchEvent, SearchState>{
     } catch (e) {
       emit(state.copyWith(isLoading: false,error: 'Failed to load $e'));
     }
+  }
+
+
+  void _onPickup(PickupPlaceEvent event,Emitter<SearchState> emit){
+    emit(state.copyWith(pickUp: event.placeModel));
+  }
+
+  void _onDrop(DropPlaceEvent event,Emitter<SearchState> emit){
+    emit(state.copyWith(drop: event.placeModel));
   }
 }

@@ -128,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 width: 45,
                                 height: 45,
                                 decoration: AppDecoration.kCustomBoxDecorationWithShadow(12, AppColors.white, AppColors.white, AppColors.black,isCircle: true),
-                                margin: const EdgeInsets.only(top: 8,bottom: 8),
+                                margin: const EdgeInsets.only(top: 8,bottom: 8,right: 10),
                                 child: Center(
                                   child: IconButton(
                                     alignment: Alignment.center,
@@ -141,13 +141,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             Expanded(
-                                child: Center(child: Text(state?.address??'',textAlign:TextAlign.center,style: kTextStyleColor500(color: AppColors.white),))
+                                child: Center(child: Text(state?.address??'',textAlign:TextAlign.center,style: kTextStyleColor500(color: AppColors.white),            maxLines: 1, overflow: TextOverflow.ellipsis,))
                             ),
                             Container(
                               width: 45,
                               height: 45,
                               decoration: AppDecoration.kCustomBoxDecorationWithShadow(12, AppColors.white, AppColors.white, AppColors.black,isCircle: true),
-                              margin: const EdgeInsets.only(top: 8,bottom: 8),
+                              margin: const EdgeInsets.only(top: 8,bottom: 8,left: 10),
                               child: Center(
                                 child: Text(
                                     'A',
