@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
+import 'package:totowala/core/library/images.dart';
 
 import '../../../../../../core/decoration/app_decoration.dart';
 import '../../../../../../core/library/app_text.dart';
@@ -31,6 +33,11 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
         children: [
           _appBar(),
           const Divider(),
+
+          Center(
+            child: Lottie.asset(AppImages.earnMoney),
+          ),
+
         ],
       ),
     );

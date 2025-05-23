@@ -373,11 +373,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(AppText.bookAutoRide,style: kTextStyleColor600(),),
-                            SizedBox(width: 10,),
+
                             Icon(Icons.arrow_forward_outlined,color: AppColors.black,)
                           ],
                         ),
-                        Text(AppText.budgetFriendlyRides,style: kTextStyleColor600(isBold: false),),
+                        Text(AppText.budgetFriendlyRides,style: kTextStyleColor600(isBold: false,size: 10),),
 
                       ],
                     ),
@@ -429,11 +429,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(AppText.bookBikeRide,style: kTextStyleColor600(),),
-                            SizedBox(width: 10,),
+
                             Icon(Icons.arrow_forward_outlined,color: AppColors.black,)
                           ],
                         ),
-                        Text(AppText.trafficLessRides,style: kTextStyleColor600(isBold: false),),
+                        Text(AppText.trafficLessRides,style: kTextStyleColor600(isBold: false,size: 10),),
 
                       ],
                     ),
