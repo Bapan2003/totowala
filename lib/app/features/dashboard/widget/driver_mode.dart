@@ -6,6 +6,8 @@ import 'package:totowala/core/decoration/app_decoration.dart';
 import 'package:totowala/core/utils/app_const.dart';
 import 'package:totowala/domain/features/dashboard/dashboard/dashboard_event.dart';
 import 'package:totowala/domain/features/dashboard/dashboard/dashboard_state.dart';
+import 'package:totowala/domain/features/dashboard/driver_home/driver_home_bloc.dart';
+import 'package:totowala/domain/features/dashboard/driver_home/driver_home_event.dart';
 
 import '../../../../core/library/app_text.dart';
 import '../../../../core/theme/colors.dart';
@@ -43,6 +45,7 @@ class _DriverPassengerModeToggleState extends State<DriverPassengerModeToggle> {
                 value: state.isDriver,
                 onChanged: (bool newValue) {
                   context.read<DashboardBloc>().add(ChangeDriverPassengerModeEvent(isDriver: newValue));
+                  context.read<DriverHomeBloc>().add(ChangeDutyModeEvent(isOnDuty: false));
                 },
               );
             },

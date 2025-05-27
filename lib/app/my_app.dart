@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:totowala/app/navigation/app_router_config.dart';
 import 'package:totowala/domain/features/dashboard/dashboard/dashboard_bloc.dart';
+import 'package:totowala/domain/features/dashboard/driver_home/driver_home_bloc.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -26,6 +27,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider<DashboardBloc>(
           create: (context) => DashboardBloc(),
+        ),
+        BlocProvider<DriverHomeBloc>(
+          create: (context) => DriverHomeBloc(),
         ),
       ],
       child: MaterialApp.router(

@@ -40,8 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
  
   }
   void _onMapCreated(GoogleMapController controller) async {
-    _viewModel.createMapController(controller);
-    _viewModel.fetchLocation();
+    if(mounted){
+      _viewModel.createMapController(controller);
+      _viewModel.fetchLocation();
+    }
+
     // _mapController.animateCamera(cameraUpdate)
   }
 

@@ -8,6 +8,7 @@ import 'package:totowala/app/features/search/search_screen.dart';
 import 'package:totowala/app/features/search/search_view_model.dart';
 
 
+import '../../core/di/service_locator.dart';
 import '../../core/utils/app_helper.dart';
 import '../../domain/features/auth/mobile_no/mobile_no_bloc.dart';
 import '../../domain/features/dashboard/home/home_bloc.dart';
@@ -74,7 +75,7 @@ class AppRouterConfig {
       name: AppRoute.searchScreen,
       pageBuilder: (context, state) {
         return buildTransitionPage(
-          child: SearchScreen(homeViewModel: HomeViewModel(HomeBloc())..fetchLocation(),searchViewModel: SearchViewModel(SearchBloc()),),
+          child: SearchScreen(homeViewModel: HomeViewModel(HomeBloc())..fetchLocation(),searchViewModel: SearchViewModel( getIt<SearchBloc>(),),),
           state: state,
           type: TransitionType.bottomToTop,
         );

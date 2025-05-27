@@ -6,12 +6,14 @@ import 'package:http/http.dart' as http;
 import 'package:totowala/core/api/app_req_end_point.dart';
 import 'package:totowala/domain/features/checkout/checkout_event.dart';
 import 'package:totowala/domain/features/checkout/checkout_state.dart';
+import 'package:totowala/domain/repository/checkout/checkout_repository.dart';
 
 import '../../../core/theme/colors.dart';
 import '../../../core/utils/app_helper.dart';
 
 class CheckoutBloc extends Bloc<CheckoutEvent,CheckoutState>{
-  CheckoutBloc():super(CheckoutState.initial()){
+  final CheckoutRepository repository;
+  CheckoutBloc(this.repository):super(CheckoutState.initial()){
     on<GetRouteEvent>(_onGetRouteEvent);
     on<CreateMapController>(_createMapController);
 
@@ -23,11 +25,8 @@ class CheckoutBloc extends Bloc<CheckoutEvent,CheckoutState>{
 
     try {
 
-      final String requestUrl=AppReqEndPoint.getRoute(event.from.latitude, event.from.longitude, event.to.latitude, event.to.longitude);
-      final response = await http.get(Uri.parse(requestUrl));
-      final data = json.decode(response.body);
+      final data= await repository.getRoute(event.from, event.to);
 
-      if (data['routes'].isNotEmpty) {
         final String encoded = data['routes'][0]['overview_polyline']['points'];
         final List<LatLng> polylinePoints = AppHelper.decodePolyline(encoded);
 
@@ -58,9 +57,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent,CheckoutState>{
 
 
         emit(state.copyWith(polylinePoints: polylinePoints,markers: markers,circles: circles));
-      } else {
-        emit(state.copyWith(error:'No route found' ));
-      }
+
     } catch (e) {
       emit(state.copyWith(error:e.toString() ));
     }

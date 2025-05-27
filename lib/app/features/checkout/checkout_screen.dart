@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:totowala/app/features/checkout/checkout_view_model.dart';
+import 'package:totowala/core/di/service_locator.dart';
 import 'package:totowala/core/theme/typography.dart';
 import 'package:totowala/domain/features/checkout/checkout_bloc.dart';
 import 'package:totowala/domain/features/checkout/checkout_state.dart';
@@ -26,7 +27,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   void initState() {
     super.initState();
-    final checkoutBloc = CheckoutBloc();
+    final checkoutBloc = getIt<CheckoutBloc>();
     _viewModel = CheckoutViewModel(checkoutBloc);
     if(widget.src!=null && widget.dest!=null){
       _viewModel.loadRoute(widget.src!, widget.dest!); // 👈 ViewModel calling BLoC

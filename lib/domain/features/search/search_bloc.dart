@@ -5,11 +5,13 @@ import 'package:http/http.dart' as http;
 import 'package:totowala/core/api/app_req_end_point.dart';
 import 'package:totowala/domain/features/search/search_event.dart';
 import 'package:totowala/domain/features/search/search_state.dart';
+import 'package:totowala/domain/repository/search/search_repository.dart';
 
 import '../../../data/model/place_suggestion.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState>{
-  SearchBloc():super(SearchState.initial()){
+  final SearchRepository repository;
+  SearchBloc(this.repository):super(SearchState.initial()){
     on<SearchPlaceEvent>(_onFetchSuggestions);
     on<PickupPlaceEvent>(_onPickup);
     on<DropPlaceEvent>(_onDrop);
@@ -21,22 +23,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState>{
       ) async {
     emit(state.copyWith(isLoading: true,));
 
-    final String requestUrl =AppReqEndPoint.getPlace(event.input, event.sessionToken);
 
 
     try {
-      final response = await http.get(Uri.parse(requestUrl));
-      if (response.statusCode == 200) {
-        final jsonData = json.decode(response.body);
-        final predictions = jsonData['predictions'] as List;
+      final suggestions = await repository.getPlaceSuggestion(event.input, event.sessionToken);
+      emit(state.copyWith(isLoading: false, suggestedPlace: suggestions));
 
-        final suggestions = predictions
-            .map((e) => PlaceSuggestion.fromJson(e))
-            .toList();
-
-        emit(state.copyWith(isLoading: false,suggestedPlace: suggestions));
-      } else {
-        emit(state.copyWith(isLoading: false,error: 'Failed to load'));      }
     } catch (e) {
       emit(state.copyWith(isLoading: false,error: 'Failed to load $e'));
     }

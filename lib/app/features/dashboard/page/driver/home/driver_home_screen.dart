@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:totowala/app/features/dashboard/page/driver/home/driver_home_view_model.dart';
 import 'package:totowala/core/library/images.dart';
+import 'package:totowala/domain/features/dashboard/driver_home/driver_home_bloc.dart';
+import 'package:totowala/domain/features/dashboard/driver_home/driver_home_event.dart';
+import 'package:totowala/domain/features/dashboard/driver_home/driver_home_state.dart';
 
 import '../../../../../../core/decoration/app_decoration.dart';
 import '../../../../../../core/library/app_text.dart';
@@ -13,16 +17,8 @@ import '../../../../../../core/utils/app_settings.dart';
 import '../../../../../navigation/app_route.dart';
 import '../../../widget/driver_mode.dart';
 
-class DriverHomeScreen extends StatefulWidget {
+class DriverHomeScreen extends StatelessWidget {
   const DriverHomeScreen({super.key});
-
-  @override
-  State<DriverHomeScreen> createState() => _DriverHomeScreenState();
-}
-
-class _DriverHomeScreenState extends State<DriverHomeScreen> {
-
-  bool isOnDuty=false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,26 +63,28 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
               ),
             ),
           ),
-          Container(
-            decoration: AppDecoration.kCustomBoxDecoration(25, AppColors.transparent, isOnDuty?AppColors.greenColor:AppColors.grey),
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(isOnDuty?AppText.onDuty:AppText.offDuty,style: kTextStyleColor500(color:isOnDuty?AppColors.greenColor:AppColors.grey),),
-                Switch(
-                    inactiveTrackColor: AppColors.lightGreyColor,
-                    activeColor: AppColors.greenColor,
-                    value: isOnDuty, onChanged: (newValue){
 
-                      isOnDuty=newValue;
-                      setState(() {
+          BlocBuilder<DriverHomeBloc, DriverHomeState>(
+              builder: (context,state){
+                return Container(
+                  decoration: AppDecoration.kCustomBoxDecoration(25, AppColors.transparent, state.isOnDuty?AppColors.greenColor:AppColors.grey),
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(state.isOnDuty?AppText.onDuty:AppText.offDuty,style: kTextStyleColor500(color:state.isOnDuty?AppColors.greenColor:AppColors.grey),),
+                      Switch(
+                          inactiveTrackColor: AppColors.lightGreyColor,
+                          activeColor: AppColors.greenColor,
+                          value: state.isOnDuty, onChanged: (newValue){
+                             context.read<DriverHomeBloc>().add(ChangeDutyModeEvent(isOnDuty: newValue));
+                      })
+                    ],
+                  ),
+                );
 
-                      });
-                })
-              ],
-            ),
-          ),
+          }),
+
 
           Container(
             width: 45,
