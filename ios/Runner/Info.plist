@@ -46,7 +46,7 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>GMSApiKey</key>
-    <string>AIzaSyAfiISUmg_6Bdcw0XI4GhocAi76a9_sYY8</string>
+    <string>AIzaSyDovHtxtPHq-fzGsE1rXUPT9tvUBa-1zcM</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>This app needs access to your location.</string>
 </dict>

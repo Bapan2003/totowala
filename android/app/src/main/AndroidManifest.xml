@@ -1,11 +1,25 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
     <application
         android:label="totowala"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:requestLegacyExternalStorage="true"
+        android:enableOnBackInvokedCallback="true"
+        android:usesCleartextTraffic="true">
+
+        <!-- 👇 Your background service -->
+        <service
+            android:name="id.flutter.flutter_background_service.BackgroundService"
+            android:foregroundServiceType="location"
+            tools:replace="android:foregroundServiceType" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -35,7 +49,7 @@
             android:value="2" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAfiISUmg_6Bdcw0XI4GhocAi76a9_sYY8" />
+            android:value="AIzaSyDovHtxtPHq-fzGsE1rXUPT9tvUBa-1zcM" />
 <!--            android:value="AIzaSyChK_1TYrtnNYCgTs_7bedZb6Bx0vdJIS0" />-->
     </application>
     <!-- Required to query activities that can process text, see:

@@ -1,16 +1,25 @@
 import 'dart:core';
 
+import 'package:totowala/core/api/app_env/app_env.dart';
+
 class AppReqEndPoint{
 
-  static String baseUrl= 'https://maps.googleapis.com/maps/api';
-  static String apiKey= 'AIzaSyAfiISUmg_6Bdcw0XI4GhocAi76a9_sYY8&sessiontoken';
+  static String baseUrl= AppEnv.instance.baseUrl;
+  static String baseUrlGMap= 'https://maps.googleapis.com/maps/api';
+  static String apiKey= 'AIzaSyDovHtxtPHq-fzGsE1rXUPT9tvUBa-1zcM';
 
 
   static String getRoute(double sLat,double sLong, double dLat, double dLong){
-    return '$baseUrl/directions/json?origin=$sLat,$sLong&destination=$dLat,$dLong&key=$apiKey';
+    return '$baseUrlGMap/directions/json?origin=$sLat,$sLong&destination=$dLat,$dLong&key=$apiKey';
   }
 
   static String getPlace(String input, String sessionToken){
-    return '$baseUrl/place/autocomplete/json?input=$input&key=$apiKey&sessiontoken=$sessionToken';
+    return '$baseUrlGMap/place/autocomplete/json?input=$input&key=$apiKey&sessiontoken=$sessionToken';
   }
+
+  static String sendOtpAuth(){
+    return '$baseUrl/auth/send-otp';
+  }
+
+  
 }

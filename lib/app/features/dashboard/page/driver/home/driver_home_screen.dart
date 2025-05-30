@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:totowala/app/features/dashboard/page/driver/home/driver_home_view_model.dart';
 import 'package:totowala/core/library/images.dart';
+import 'package:totowala/core/utils/app_const.dart';
 import 'package:totowala/domain/features/dashboard/driver_home/driver_home_bloc.dart';
 import 'package:totowala/domain/features/dashboard/driver_home/driver_home_event.dart';
 import 'package:totowala/domain/features/dashboard/driver_home/driver_home_state.dart';
@@ -17,8 +19,24 @@ import '../../../../../../core/utils/app_settings.dart';
 import '../../../../../navigation/app_route.dart';
 import '../../../widget/driver_mode.dart';
 
-class DriverHomeScreen extends StatelessWidget {
-  const DriverHomeScreen({super.key});
+class DriverHomeScreen extends StatefulWidget {
+   const DriverHomeScreen({super.key});
+
+  @override
+  State<DriverHomeScreen> createState() => _DriverHomeScreenState();
+}
+
+class _DriverHomeScreenState extends State<DriverHomeScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    bool isOnDuty=AppSettings.getData(AppConstant.isOnDuty)??false;
+    context.read<DriverHomeBloc>().add(ChangeDutyModeEvent(isOnDuty: isOnDuty));
+  }
+  
+  
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +46,27 @@ class DriverHomeScreen extends StatelessWidget {
       body: Column(
         children: [
           _appBar(),
-          const Divider(),
 
-          Center(
-            child: Lottie.asset(AppImages.earnMoney),
+
+          Expanded(
+            child: BlocBuilder<DriverHomeBloc,DriverHomeState>(builder: (context,state){
+              return state.isOnDuty?GoogleMap(
+
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(22.5726, 88.3639), // Kolkata coordinates (example)
+                  zoom: 12,
+                ),
+                myLocationButtonEnabled: true,
+                myLocationEnabled: true,
+              ):Column(
+                children: [
+                  const Divider(),
+                  Center(
+                    child: Lottie.asset(AppImages.earnMoney),
+                  ),
+                ],
+              );
+            }),
           ),
 
         ],
