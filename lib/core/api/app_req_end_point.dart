@@ -28,5 +28,9 @@ class AppReqEndPoint{
     return '/auth/refresh';
   }
 
+  static String getAllVehicleType(){
+    return '/vehiclecategory/get-all-vehicle-category';
+  }
+
 
 }

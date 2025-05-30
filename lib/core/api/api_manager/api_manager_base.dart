@@ -6,4 +6,5 @@ abstract class ApiManagerBase{
 
   Future<Response<dynamic>> getData(String endPoint,{bool withToken=true});
   Future<Response<dynamic>> postData(String endPoint, var reqBody, {bool withToken=true});
+  Future<String?> refreshAuthToken();
 }

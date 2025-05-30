@@ -7,6 +7,7 @@ import 'package:totowala/app/features/checkout/checkout_screen.dart';
 import 'package:totowala/app/features/search/search_screen.dart';
 import 'package:totowala/app/features/search/search_view_model.dart';
 import 'package:totowala/domain/repository/auth/mobile_no/mobile_no_repository.dart';
+import 'package:totowala/domain/repository/splash/splash_repository.dart';
 
 
 import '../../core/di/service_locator.dart';
@@ -35,7 +36,7 @@ class AppRouterConfig {
     GoRoute(
       path: AppRoute.root,
       name: AppRoute.root,
-      pageBuilder: (context,state)=>buildTransitionPage(child: SplashScreen(viewModel: SplashScreenViewModel(),), state: state,type: TransitionType.fade),
+      pageBuilder: (context,state)=>buildTransitionPage(child: SplashScreen(viewModel: SplashScreenViewModel(getIt<SplashRepository>()),), state: state,type: TransitionType.fade),
     ),
 
     GoRoute(

@@ -65,14 +65,18 @@ class ApiManager implements ApiManagerBase{
     ));
   }
 
+  @override
   Future<String?> refreshAuthToken() async {
     try {
-      final refreshToken = AppSettings.getAccessToken(isRefresh: true); // Get this from secure storage
+      final refreshToken = await AppSettings.getAccessToken(isRefresh: true);
+
       final response = await _dio.post(AppReqEndPoint.refreshTokenAuth(), options:  Options(headers: {
         'Content-Type': 'application/json',
         'Authorization':'Bearer $refreshToken'
       },
       ));
+
+      logger.i(response.data);
       await AppSettings.saveAccessToken(response.data['refresh_token'],isRefresh: true);
 
       return response.data['access_token']; // Adjust to your API's response
