@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -207,5 +208,19 @@ class AppHelper{
 
   static  bool checkDriverOrNot() {
     return  AppSettings.getData(AppConstant.isDriver)??false;
+  }
+
+
+
+  /// to check internet connection
+  static checkInternetConnection() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult.contains(ConnectivityResult.mobile)) {
+      return true;
+    } else if (connectivityResult.contains(ConnectivityResult.wifi)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

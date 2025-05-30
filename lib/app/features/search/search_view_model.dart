@@ -1,12 +1,12 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:totowala/data/model/place_model.dart';
+import 'package:totowala/data/model/google/place_model.dart';
 import 'package:totowala/domain/features/search/search_bloc.dart';
 import 'package:totowala/domain/features/search/search_event.dart';
 import 'package:totowala/domain/features/search/search_state.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../data/model/place_suggestion.dart';
+import '../../../data/model/google/place_suggestion.dart';
 
 class SearchViewModel{
 

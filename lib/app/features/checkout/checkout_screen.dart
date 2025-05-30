@@ -143,7 +143,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: CommonWidget.button(AppText.confirm, (){}),
+        child: CommonWidget.button(context,AppText.confirm, (){}),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

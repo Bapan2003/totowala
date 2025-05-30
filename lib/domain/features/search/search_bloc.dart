@@ -7,7 +7,7 @@ import 'package:totowala/domain/features/search/search_event.dart';
 import 'package:totowala/domain/features/search/search_state.dart';
 import 'package:totowala/domain/repository/search/search_repository.dart';
 
-import '../../../data/model/place_suggestion.dart';
+import '../../../data/model/google/place_suggestion.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState>{
   final SearchRepository repository;

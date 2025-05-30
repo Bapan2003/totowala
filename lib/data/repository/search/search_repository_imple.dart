@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:totowala/data/model/place_suggestion.dart';
+import 'package:totowala/data/model/google/place_suggestion.dart';
 import 'package:totowala/domain/repository/search/search_repository.dart';
 
 import '../../../core/api/app_req_end_point.dart';
 
-class SearchRepositoryImplement extends SearchRepository{
+class SearchRepositoryImplement implements SearchRepository{
   @override
   Future<List<PlaceSuggestion>> getPlaceSuggestion(String input, String sessionToken) async {
     final String requestUrl =AppReqEndPoint.getPlace(input, sessionToken);

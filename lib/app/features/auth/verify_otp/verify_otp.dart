@@ -3,12 +3,17 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:totowala/app/features/auth/verify_otp/verify_otp_view_model.dart';
 import 'package:totowala/core/common_widget/common_widget.dart';
 import 'package:totowala/core/decoration/app_decoration.dart';
 import 'package:totowala/core/decoration/pin_theme.dart';
+import 'package:totowala/core/di/service_locator.dart';
 import 'package:totowala/core/library/images.dart';
 import 'package:totowala/core/utils/app_const.dart';
 import 'package:totowala/core/utils/app_settings.dart';
+import 'package:totowala/domain/features/auth/verify_otp/verify_otp_bloc.dart';
+import 'package:totowala/domain/features/auth/verify_otp/verify_otp_state.dart';
+import 'package:totowala/domain/repository/auth/mobile_no/mobile_no_repository.dart';
 
 import '../../../../core/common_widget/app_toast.dart';
 import '../../../../core/library/app_text.dart';
@@ -30,9 +35,21 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   final TextEditingController _otpController = TextEditingController();
   String enterOtp = '';
   // bool isTimerEnded = false; // to track timer's end
+  late final VerifyOtpViewModel _viewModel;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final verifyOtpBloc=VerifyOTPBloc(getIt<MobileNoRepository>());
+    _viewModel=VerifyOtpViewModel(verifyOtpBloc);
+  }
+
+
   @override
   void dispose() {
     super.dispose();
+    _viewModel.dispose();
     _otpController.dispose();
   }
 
@@ -114,19 +131,28 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
               ),
 
               SizedBox(height: 10,),
-              CommonWidget.button(AppText.verify, (){
+              StreamBuilder<VerifyOTPState>(
+                  stream: _viewModel.state,
+                  initialData: _viewModel.currentState,
+                  builder: (context,snapshot){
+                    final state=snapshot.data!;
+                    if (state.isSubmitted) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        _viewModel.resetSubmission();
+                        context.go(AppRoute.dashboard);
+                      });
+                    }
+                    return CommonWidget.button(context,AppText.verify, (){
 
-                if(enterOtp.length==6){
-                  if(enterOtp=='123456'){
-                    AppSettings.saveData(AppConstant.isActive, true);
-                    context.go(AppRoute.dashboard);
-                  }else{
-                    AppToast.toastMessage(context, AppText.wrongOtp,backgroundColor: AppColors.errorColor,textColor: AppColors.white);
-                  }
-                }else{
-                  AppToast.toastMessage(context, AppText.pleaseEnter6DigitOtp);
-                }
-              }),
+                      if(enterOtp.length==6){
+                        /// todo fcm token
+                        _viewModel.verifyOtp(enterOtp, widget.mobileNo??'', '');
+
+                      }else{
+                        AppToast.toastMessage(context, AppText.pleaseEnter6DigitOtp);
+                      }
+                    },isLoading: state.isLoading);
+                  }),
 
               SizedBox(height: 30,),
               NumericKeypad(

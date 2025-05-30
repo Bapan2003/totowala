@@ -6,6 +6,7 @@ import 'package:totowala/app/features/auth/verify_otp/verify_otp.dart';
 import 'package:totowala/app/features/checkout/checkout_screen.dart';
 import 'package:totowala/app/features/search/search_screen.dart';
 import 'package:totowala/app/features/search/search_view_model.dart';
+import 'package:totowala/domain/repository/auth/mobile_no/mobile_no_repository.dart';
 
 
 import '../../core/di/service_locator.dart';
@@ -50,7 +51,7 @@ class AppRouterConfig {
       path: AppRoute.mobileNoScreen,
       name: AppRoute.mobileNoScreen,
       pageBuilder: (context,state)=>buildTransitionPage(
-          child: MobileNoScreen(viewModel: MobileNoViewModel(MobileInputBloc()),),
+          child: MobileNoScreen(viewModel: MobileNoViewModel(MobileInputBloc(getIt<MobileNoRepository>())),),
           state: state,
           type: TransitionType.scale
       ),

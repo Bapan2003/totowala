@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:totowala/core/decoration/app_decoration.dart';
 import 'package:totowala/core/theme/typography.dart';
 
 import '../theme/colors.dart';
 
 class CommonWidget{
-  static Widget button(String title,Function() onTap,{bool isLoading=false,Color bgColor=AppColors.black,Color borderColor=AppColors.black,Color textColor=AppColors.white}){
+  static Widget button(BuildContext context,String title,Function() onTap,{bool isLoading=false,Color bgColor=AppColors.black,Color borderColor=AppColors.black,Color textColor=AppColors.white}){
     return GestureDetector(
       onTap: (){
         if(!isLoading){
@@ -19,7 +20,7 @@ class CommonWidget{
         decoration: AppDecoration.kCustomBoxDecoration(12, bgColor, borderColor),
         padding: EdgeInsets.symmetric(vertical: 15),
         alignment: Alignment.center,
-        child: Text(title.toUpperCase(),style: kTextStyleColor500(color: textColor,size: 16),),
+        child: isLoading?LoadingAnimationWidget.staggeredDotsWave(color: AppColors.white, size: 40):Text(title.toUpperCase(),style: kTextStyleColor500(color: textColor,size: 16),),
       ),
     );
   }
@@ -44,6 +45,17 @@ class CommonWidget{
         SizedBox(width: 10,),
         Text(title??'',),
       ],
+    );
+  }
+
+
+  static showLoaderDialog(BuildContext context) {
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return LoadingAnimationWidget.hexagonDots(color: AppColors.white, size: 60);
+      },
     );
   }
 }

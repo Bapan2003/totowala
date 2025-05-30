@@ -5,6 +5,8 @@ class AppText{
   static const String typeYourOtpNumber='Type your OTP number';
   static const String verify='Verify';
   static const String pleaseEnter6DigitOtp='Please Enter 6 Digit OTP Number';
+  static const String pleaseEnter10MobileNumber='Please Enter 10 Digit Mobile Number';
+  static const String pleaseEnterCorrectMobile='Please Enter correct format mobile number';
   static const String wrongOtp='Wrong OTP!';
   static const String enterDropLocationHere='Enter drop location here';
   static const String drop='Drop';
@@ -18,6 +20,7 @@ class AppText{
   static const String bookBikeRide='Book a Bike Ride';
   static const String budgetFriendlyRides='Budget Friendly Rides';
   static const String trafficLessRides='Traffic less Rides';
+  static const String noInternetConnection='No Internet Connection';
 
 
 }

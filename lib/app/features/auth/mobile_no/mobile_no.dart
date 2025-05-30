@@ -53,7 +53,7 @@ class _MobileNoScreenState extends State<MobileNoScreen> {
           padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
               Align(
@@ -61,16 +61,33 @@ class _MobileNoScreenState extends State<MobileNoScreen> {
                   child: Text(AppText.welcome,style: kTextStyleColor600(size: 45))),
               TotoImage(),
               NumberInputField(controller: _controller),
+              StreamBuilder<MobileInputState>(
+                  stream: widget.viewModel.state,
+                  initialData: widget.viewModel.currentState,
+                  builder: (context,snapshot){
+                    final state = snapshot.data!;
+                    return state.error!=null && state.error!.isNotEmpty?Text(state.error??'',style: kTextStyleColor500(isBold: false,color: AppColors.redColor),maxLines: 2,overflow: TextOverflow.ellipsis,):const SizedBox.shrink();
+                  }),
               SizedBox(height: 20),
               StreamBuilder<MobileInputState>(
                   stream: widget.viewModel.state,
                   initialData: widget.viewModel.currentState,
                   builder: (context,snapshot){
                     final state = snapshot.data!;
-                    return CommonWidget.button(AppText.submit, (){
-                      state.isValid ? widget.viewModel.onSubmit :null;
-                      state.isValid?context.push("${AppRoute.verifyOtpScreen}?mobileNo=${state.mobile}"):null;
-                    });
+
+                    if (state.isSubmitted) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        widget.viewModel.resetSubmission();
+                        context.push("${AppRoute.verifyOtpScreen}?mobileNo=${state.mobile}");
+                      });
+                    }
+
+                    return CommonWidget.button(context,AppText.submit, (){
+
+                        widget.viewModel.onSubmit();
+
+
+                    },isLoading: state.loading??false);
                   }),
               SizedBox(height: 20,),
               NumericKeypad(controller: _controller,length: 10,)

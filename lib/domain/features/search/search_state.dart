@@ -1,5 +1,5 @@
-import 'package:totowala/data/model/place_model.dart';
-import 'package:totowala/data/model/place_suggestion.dart';
+import 'package:totowala/data/model/google/place_model.dart';
+import 'package:totowala/data/model/google/place_suggestion.dart';
 
 class SearchState{
   final List<PlaceSuggestion>? suggestedPlace;

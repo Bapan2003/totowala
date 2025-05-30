@@ -1,4 +1,4 @@
-import 'package:totowala/data/model/place_model.dart';
+import 'package:totowala/data/model/google/place_model.dart';
 
 abstract class SearchEvent{}
 

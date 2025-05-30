@@ -7,7 +7,7 @@ import 'package:totowala/domain/repository/checkout/checkout_repository.dart';
 
 import '../../../core/api/app_req_end_point.dart';
 
-class CheckoutRepositoryImplement extends CheckoutRepository{
+class CheckoutRepositoryImplement implements CheckoutRepository{
   @override
   Future<dynamic> getRoute(LatLng from, LatLng to) async{
     try{

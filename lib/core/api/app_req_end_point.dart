@@ -4,7 +4,6 @@ import 'package:totowala/core/api/app_env/app_env.dart';
 
 class AppReqEndPoint{
 
-  static String baseUrl= AppEnv.instance.baseUrl;
   static String baseUrlGMap= 'https://maps.googleapis.com/maps/api';
   static String apiKey= 'AIzaSyDovHtxtPHq-fzGsE1rXUPT9tvUBa-1zcM';
 
@@ -18,8 +17,16 @@ class AppReqEndPoint{
   }
 
   static String sendOtpAuth(){
-    return '$baseUrl/auth/send-otp';
+    return '/auth/send-otp';
   }
 
-  
+  static String verifyOtpAuth(){
+    return '/auth/signup';
+  }
+
+  static String refreshTokenAuth(){
+    return '/auth/refresh';
+  }
+
+
 }

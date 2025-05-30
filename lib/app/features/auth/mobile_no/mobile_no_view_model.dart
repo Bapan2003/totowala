@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:totowala/app/navigation/app_route.dart';
+import 'package:totowala/core/common_widget/common_widget.dart';
 
 import '../../../../domain/features/auth/mobile_no/mobile_no_bloc.dart';
 import '../../../../domain/features/auth/mobile_no/mobile_no_event.dart';
@@ -26,7 +27,7 @@ class MobileNoViewModel{
   }
 
   // Call to submit
-  void onSubmit() {
+  void onSubmit()  {
     bloc.add(MobileSubmitted());
   }
 
